@@ -8,31 +8,49 @@ export default function App() {
 
   const sendMessage = async () => {
 
-    const response = await fetch("http://localhost:5000/send-email", {
+    try {
 
-      method: "POST",
+      const response = await fetch("http://localhost:5000/send-email", {
 
-      headers: {
-        "Content-Type": "application/json",
-      },
+        method: "POST",
 
-      body: JSON.stringify({
-        name,
-        email,
-        message,
-      }),
+        headers: {
+          "Content-Type": "application/json",
+        },
 
-    });
+        body: JSON.stringify({
+          name,
+          email,
+          message,
+        }),
 
-    const data = await response.json();
+      });
 
-    console.log(data);
+      const data = await response.json();
 
-    alert("Message Sent Successfully!");
+      console.log(data);
 
-    setName("");
-    setEmail("");
-    setMessage("");
+      if (data.success) {
+
+        alert("Message Sent Successfully!");
+
+        setName("");
+        setEmail("");
+        setMessage("");
+
+      } else {
+
+        alert("Failed to send message");
+
+      }
+
+    } catch (error) {
+
+      console.log(error);
+
+      alert("Something went wrong");
+
+    }
 
   };
 
